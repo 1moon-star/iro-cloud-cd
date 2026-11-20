@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IRO CLOUD — Cover Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Montserrat:wght@500;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f5f6f4;
+    --ink:#1f252b;
+    --ink-soft:#5f6b75;
+    --blue:#a9d5f1;
+    --blue-mid:#7fbde6;
+    --blue-deep:#3f8fc4;
+    --blue-pale:#dcedf9;
+    --yellow:#f6e68a;
+    --pink:#f3a8b8;
+    --gray:#9aa7b2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:"Noto Sans KR","Noto Sans JP",system-ui,sans-serif;
+    color:var(--ink);
+    background-color:var(--paper);
+    /* 종이 질감 */
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .4 0 0 0 0 .45 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ---------- 배경 리본 & 장식 ---------- */
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg svg{position:absolute;width:140%;left:-20%}
+  .bg .r1{top:8%;opacity:.55}
+  .bg .r2{bottom:4%;opacity:.45;transform:scaleX(-1)}
+  .wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 16px 44px}
+
+  /* ---------- 상단 도트 밴드 ---------- */
+  .dots{
+    height:46px;margin:0 -16px;
+    background:
+      radial-gradient(circle at 23px 23px,var(--blue) 0 17px,transparent 17.5px) 0 0/46px 46px;
+    opacity:.85;
+    -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 55%,transparent 100%);
+            mask-image:linear-gradient(90deg,#000 0%,#000 55%,transparent 100%);
+  }
+  .stripe{height:6px;margin:6px -16px 0;background:linear-gradient(90deg,var(--blue) 0 70%,transparent 70% 72%,var(--blue-pale) 72%)}
+
+  /* ---------- 헤더 ---------- */
+  header{position:relative;text-align:center;padding:26px 0 6px}
+  h1{
+    font-family:"Dela Gothic One",Montserrat,sans-serif;font-weight:400;
+    font-size:clamp(40px,12vw,54px);line-height:1.05;letter-spacing:.04em;
+    color:var(--ink);
+    -webkit-text-stroke:7px #fff;paint-order:stroke fill;
+    text-shadow:
+      4px 4px 0 var(--blue),
+      4px 4px 0 var(--blue);
+    position:relative;display:inline-block;
+  }
+  .h-sub{
+    display:inline-flex;align-items:center;gap:8px;margin-top:12px;
+    font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.32em;
+    background:var(--ink);color:#fff;border-radius:999px;padding:6px 14px 6px 17px;
+    box-shadow:0 0 0 3px #fff,0 0 0 5px var(--blue);
+  }
+  .kr-name{margin-top:10px;font-size:13px;font-weight:500;color:var(--ink-soft);letter-spacing:.3em}
+  .deco{position:absolute;pointer-events:none}
+  .deco.f1{width:26px;left:6%;top:22px;transform:rotate(-12deg)}
+  .deco.f2{width:18px;right:9%;top:16px}
+  .deco.f3{width:20px;right:4%;top:84px;transform:rotate(20deg)}
+  .deco.bubble{width:46px;left:2%;top:86px;transform:rotate(-8deg)}
+  .deco.spark{width:14px;left:20%;top:12px}
+
+  /* ---------- 스티커 카드 ---------- */
+  .card{
+    position:relative;background:#fff;border-radius:22px;
+    border:2px solid var(--blue);
+    box-shadow:0 0 0 5px #fff,0 0 0 7px rgba(169,213,241,.55),0 12px 26px rgba(63,143,196,.14);
+  }
+
+  /* ---------- 디스크 ---------- */
+  .stage{position:relative;display:grid;place-items:center;padding:26px 0 14px}
+  .disc{
+    position:relative;width:min(72vw,280px);aspect-ratio:1;border-radius:50%;
+    background:
+      radial-gradient(circle at center,
+        transparent 0 7%,
+        #fff 7% 8%,
+        #dfe5ea 8% 15%,
+        #fff 15% 15.6%,
+        transparent 15.6% 96.5%,
+        #fff 96.5% 100%),
+      repeating-radial-gradient(circle at center,rgba(255,255,255,0) 0 2px,rgba(255,255,255,.08) 2px 3px),
+      conic-gradient(from 20deg,
+        #e4e9ee,#cbe9fb 8%,#f9fafb 16%,#c3ccd5 26%,#fbf3c6 34%,#f2f4f6 44%,
+        #bac6d1 54%,#cfeafb 64%,#fde2e8 72%,#fbfcfd 78%,#c3ccd5 88%,#e4e9ee);
+    box-shadow:0 0 0 2px var(--blue),0 0 0 6px #fff,0 0 0 8px rgba(169,213,241,.55),0 18px 34px rgba(50,90,120,.22);
+    animation:spin 4.5s linear infinite;animation-play-state:paused;
+  }
+  .disc.playing{animation-play-state:running}
+  .disc::after{
+    content:"";position:absolute;inset:0;margin:auto;width:9%;aspect-ratio:1;border-radius:50%;
+    background:var(--paper);box-shadow:0 1px 3px rgba(40,60,80,.35) inset;z-index:3;
+  }
+  .label{
+    position:absolute;inset:0;margin:auto;width:56%;aspect-ratio:1;border-radius:50%;overflow:hidden;
+    background:
+      radial-gradient(circle at 12px 12px,rgba(255,255,255,.75) 0 5px,transparent 5.5px) 0 0/24px 24px,
+      var(--blue);
+    box-shadow:0 0 0 3px #fff;
+  }
+  .label svg.ring{position:absolute;inset:0;width:100%;height:100%}
+  .label .center{
+    position:absolute;left:50%;top:22%;transform:translateX(-50%);
+    font-family:"Dela Gothic One",sans-serif;font-size:clamp(11px,3.4vw,14px);letter-spacing:.06em;
+    color:var(--ink);-webkit-text-stroke:3px #fff;paint-order:stroke fill;white-space:nowrap;
+  }
+  .label .lf{position:absolute;width:22%;left:20%;bottom:20%}
+  .label .lf2{position:absolute;width:15%;right:22%;bottom:26%}
+  .disc .shine{
+    position:absolute;inset:0;border-radius:50%;pointer-events:none;z-index:2;
+    background:linear-gradient(135deg,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 38%,rgba(255,255,255,0) 62%,rgba(255,255,255,.35) 100%);
+    animation:spin 4.5s linear infinite reverse;animation-play-state:inherit;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.disc,.disc .shine{animation:none}}
+
+  /* ---------- 재생 카드 ---------- */
+  .now{padding:22px 20px 18px;margin-top:20px;text-align:center}
+  .now .no{
+    display:inline-block;font-family:Montserrat,sans-serif;font-size:11px;font-weight:800;letter-spacing:.25em;
+    background:var(--yellow);color:var(--ink);border-radius:6px;padding:3px 9px 3px 12px;
+  }
+  .now .title{font-size:20px;font-weight:700;margin:10px 0 3px;line-height:1.35;word-break:keep-all}
+  .now .sub{font-size:12.5px;color:var(--ink-soft);min-height:1.2em}
+
+  .progress{margin:18px 2px 4px}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;outline:none;cursor:pointer;
+    background:linear-gradient(90deg,var(--blue-mid) var(--p,0%),#e3e8ec var(--p,0%));
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:3px solid var(--ink);
+  }
+  input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+  .times{display:flex;justify-content:space-between;font-family:Montserrat,sans-serif;font-weight:500;font-size:11px;color:var(--ink-soft);margin-top:7px}
+
+  .controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px}
+  .btn{
+    border:none;cursor:pointer;display:grid;place-items:center;border-radius:50%;
+    background:#fff;color:var(--ink);
+    box-shadow:0 0 0 2px var(--ink);
+    transition:transform .12s ease;-webkit-tap-highlight-color:transparent;
+  }
+  .btn:active{transform:scale(.93)}
+  .btn svg{width:20px;height:20px;fill:currentColor}
+  .btn.sm{width:44px;height:44px}
+  .btn.side{width:36px;height:36px;color:var(--gray);box-shadow:0 0 0 2px #dfe5ea}
+  .btn.side svg{width:16px;height:16px}
+  .btn.side.on{color:var(--blue-deep);box-shadow:0 0 0 2px var(--blue)}
+  .btn.main{
+    width:68px;height:68px;background:var(--blue);color:var(--ink);
+    box-shadow:0 0 0 2px var(--ink),0 0 0 6px #fff,0 0 0 8px var(--blue),4px 6px 0 6px rgba(31,37,43,.08);
+  }
+  .btn.main svg{width:28px;height:28px}
+  .repeat-wrap{position:relative}
+  .repeat-one{
+    position:absolute;top:-6px;right:-6px;width:15px;height:15px;border-radius:50%;
+    background:var(--pink);color:#fff;font-family:Montserrat,sans-serif;font-size:9px;font-weight:800;
+    display:none;place-items:center;
+  }
+  .repeat-wrap.one .repeat-one{display:grid}
+
+  .notice{
+    display:none;margin-top:14px;font-size:12.5px;line-height:1.6;color:var(--ink);text-align:left;
+    background:var(--blue-pale);border-radius:12px;padding:10px 12px
+  }
+  .notice.show{display:block}
+  .notice a{color:var(--blue-deep);font-weight:700}
+
+  /* ---------- 영상 화면 (유튜브 규정상 보이게 유지) ---------- */
+  .screen{margin-top:22px;padding:10px}
+  .screen .frame{position:relative;width:100%;aspect-ratio:16/9;min-height:200px;border-radius:14px;overflow:hidden;background:var(--blue-pale)}
+  .screen .frame iframe,.screen .frame #yt{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .screen .cap{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--ink-soft);padding:9px 4px 1px}
+  .screen .cap a{color:var(--blue-deep);text-decoration:none;font-weight:700}
+
+  /* ---------- 트랙리스트 ---------- */
+  .tracklist{margin-top:22px;padding:22px 8px 10px}
+  .tracklist h2{
+    font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:20px;letter-spacing:.08em;
+    text-align:center;margin-bottom:12px;color:var(--ink);
+    -webkit-text-stroke:5px #fff;paint-order:stroke fill;text-shadow:3px 3px 0 var(--blue);
+  }
+  .tracklist .tag{
+    position:absolute;top:-13px;right:18px;transform:rotate(6deg);
+    background:var(--pink);color:#fff;font-family:Montserrat,sans-serif;font-size:10px;font-weight:800;letter-spacing:.15em;
+    padding:4px 10px;border-radius:6px;box-shadow:0 0 0 3px #fff;
+  }
+  ol{list-style:none}
+  li button{
+    width:100%;display:grid;grid-template-columns:36px 1fr 22px;align-items:center;gap:8px;
+    text-align:left;background:none;border:none;cursor:pointer;color:inherit;font:inherit;
+    padding:11px 12px;border-radius:12px;transition:background .15s;-webkit-tap-highlight-color:transparent;
+  }
+  li button:hover{background:#f3f8fc}
+  li + li button{border-top:1.5px dashed #e1e7ec;border-radius:0}
+  li + li button:hover{border-radius:12px}
+  .tn{font-family:Montserrat,sans-serif;font-size:14px;font-weight:800;color:var(--gray)}
+  .tt{font-size:14.5px;font-weight:700;line-height:1.35;word-break:keep-all}
+  .ts{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:1px}
+  .tb{display:block;font-size:10.5px;color:#d0708a;margin-top:2px}
+  li.active button{background:var(--blue-pale);border-radius:12px;box-shadow:inset 4px 0 0 var(--blue-mid)}
+  li.active .tn{color:var(--blue-deep)}
+  li.active + li button{border-top-color:transparent}
+
+  .eq{display:flex;gap:2px;align-items:flex-end;height:14px;opacity:0}
+  .eq i{display:block;width:3px;border-radius:2px;height:4px;background:var(--blue-mid)}
+  .eq i:nth-child(2){background:var(--yellow)}
+  .eq i:nth-child(3){background:var(--pink)}
+  li.active .eq{opacity:1}
+  li.active.playing .eq i{animation:eq .9s ease-in-out infinite}
+  li.active.playing .eq i:nth-child(2){animation-delay:.2s}
+  li.active.playing .eq i:nth-child(3){animation-delay:.4s}
+  @keyframes eq{0%,100%{height:4px}50%{height:14px}}
+
+  footer{text-align:center;font-size:10.5px;line-height:1.7;color:var(--gray);margin-top:30px}
+  footer .logo{font-family:Montserrat,sans-serif;font-weight:800;letter-spacing:.3em;font-size:10px;margin-bottom:4px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<!-- 재사용 장식 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="flower" viewBox="0 0 40 40">
+      <g stroke="#fff" stroke-width="2.5">
+        <circle cx="20" cy="9" r="8"/><circle cx="30.5" cy="16.6" r="8"/><circle cx="26.5" cy="29" r="8"/>
+        <circle cx="13.5" cy="29" r="8"/><circle cx="9.5" cy="16.6" r="8"/>
+      </g>
+      <g stroke="none">
+        <circle cx="20" cy="9" r="8"/><circle cx="30.5" cy="16.6" r="8"/><circle cx="26.5" cy="29" r="8"/>
+        <circle cx="13.5" cy="29" r="8"/><circle cx="9.5" cy="16.6" r="8"/>
+      </g>
+      <circle cx="20" cy="20" r="5" fill="#fff"/>
+    </symbol>
+    <symbol id="spark" viewBox="0 0 20 20">
+      <path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 배경 리본 -->
+<div class="bg" aria-hidden="true">
+  <svg class="r1" viewBox="0 0 1000 300" preserveAspectRatio="none">
+    <path d="M-20 240 C 200 80, 380 60, 520 150 S 820 260, 1020 70" fill="none" stroke="#f6e68a" stroke-width="26" stroke-linecap="round"/>
+    <path d="M-20 240 C 200 80, 380 60, 520 150 S 820 260, 1020 70" fill="none" stroke="#a9d5f1" stroke-width="26" stroke-dasharray="120 160 60 240" stroke-linecap="butt"/>
+    <path d="M-20 240 C 200 80, 380 60, 520 150 S 820 260, 1020 70" fill="none" stroke="#f3a8b8" stroke-width="26" stroke-dasharray="40 540" stroke-dashoffset="-180"/>
+  </svg>
+  <svg class="r2" viewBox="0 0 1000 300" preserveAspectRatio="none">
+    <path d="M-20 200 C 220 40, 420 280, 640 160 S 900 40, 1020 120" fill="none" stroke="#a9d5f1" stroke-width="22" stroke-linecap="round"/>
+    <path d="M-20 200 C 220 40, 420 280, 640 160 S 900 40, 1020 120" fill="none" stroke="#f6e68a" stroke-width="22" stroke-dasharray="90 210"/>
+  </svg>
+</div>
+
+<div class="wrap">
+  <div class="dots" aria-hidden="true"></div>
+  <div class="stripe" aria-hidden="true"></div>
+
+  <header>
+    <svg class="deco f1" viewBox="0 0 40 40" fill="#a9d5f1" aria-hidden="true"><use href="#flower"/></svg>
+    <svg class="deco f2" viewBox="0 0 40 40" fill="#f3a8b8" aria-hidden="true"><use href="#flower"/></svg>
+    <svg class="deco f3" viewBox="0 0 40 40" fill="#f6e68a" aria-hidden="true"><use href="#flower"/></svg>
+    <svg class="deco spark" viewBox="0 0 20 20" fill="#7fbde6" aria-hidden="true"><use href="#spark"/></svg>
+    <svg class="deco bubble" viewBox="0 0 60 56" aria-hidden="true">
+      <path d="M30 4 C 46 4, 56 14, 56 26 S 46 48, 30 48 C 26 48, 22 47, 19 46 L 8 53 L 11 42 C 6 38, 4 32, 4 26 C 4 14, 14 4, 30 4 Z" fill="#fff" stroke="#a9d5f1" stroke-width="3"/>
+      <path d="M30 35 C 22 29, 19 25, 21 21 C 23 17, 28 18, 30 22 C 32 18, 37 17, 39 21 C 41 25, 38 29, 30 35 Z" fill="#a9d5f1"/>
+    </svg>
+
+    <h1>IRO CLOUD</h1><br>
+    <div class="h-sub">COVER COLLECTION</div>
+    <div class="kr-name">이로 클라우드</div>
+  </header>
+
+  <div class="stage">
+    <div class="disc" id="disc">
+      <div class="label">
+        <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="ring" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
+          <text font-family="Montserrat, sans-serif" font-size="12" font-weight="800" letter-spacing="2.6" fill="#1f252b">
+            <textPath href="#ring">IRO CLOUD ✦ COVER COLLECTION ✦ IRO CLOUD ✦ COVER COLLECTION ✦</textPath>
+          </text>
+        </svg>
+        <div class="center">IRO CLOUD</div>
+        <svg class="lf" viewBox="0 0 40 40" fill="#f3a8b8" aria-hidden="true"><use href="#flower"/></svg>
+        <svg class="lf2" viewBox="0 0 40 40" fill="#f6e68a" aria-hidden="true"><use href="#flower"/></svg>
+      </div>
+      <div class="shine"></div>
+    </div>
+  </div>
+
+  <section class="card now" aria-live="polite">
+    <div class="no" id="nowNo">TRACK 01</div>
+    <div class="title" id="nowTitle">—</div>
+    <div class="sub" id="nowSub"></div>
+
+    <div class="progress">
+      <input type="range" id="seek" min="0" max="1000" value="0" aria-label="재생 위치">
+      <div class="times"><span id="cur">0:00</span><span id="dur">0:00</span></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn side" id="shuffleBtn" aria-label="셔플">
+        <svg viewBox="0 0 24 24"><path d="M10.6 9.2 5.4 4 4 5.4l5.2 5.2 1.4-1.4ZM14.5 4l2 2L4 18.6 5.4 20 18 7.5l2 2V4h-5.5Zm.3 9.4-1.4 1.4 3.1 3.1L14.5 20H20v-5.5l-2 2-3.2-3.1Z"/></svg>
+      </button>
+      <button class="btn sm" id="prevBtn" aria-label="이전 곡">
+        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg>
+      </button>
+      <button class="btn main" id="playBtn" aria-label="재생">
+        <svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="btn sm" id="nextBtn" aria-label="다음 곡">
+        <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg>
+      </button>
+      <div class="repeat-wrap" id="repeatWrap">
+        <button class="btn side on" id="repeatBtn" aria-label="반복: 전체">
+          <svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7Zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4Z"/></svg>
+        </button>
+        <span class="repeat-one">1</span>
+      </div>
+    </div>
+
+    <div class="notice" id="notice"></div>
+  </section>
+
+  <section class="card screen">
+    <div class="frame"><div id="yt"></div></div>
+    <div class="cap">
+      <span>▶ Playing on YouTube</span>
+      <a id="ytLink" href="#" target="_blank" rel="noopener">YouTube에서 보기 ↗</a>
+    </div>
+  </section>
+
+  <section class="card tracklist">
+    <span class="tag">9 TRACKS</span>
+    <h2>TRACK LIST</h2>
+    <ol id="list"></ol>
+  </section>
+
+  <footer>
+    <div class="logo">IRO CLOUD · COVER COLLECTION</div>
+    모든 곡은 YouTube 공식 플레이어로 재생됩니다.<br>
+    원곡과 커버 영상의 권리는 각 권리자에게 있습니다.
+  </footer>
+</div>
+
+<script>
+/* =========================================================
+   트랙 목록 — 곡을 추가/수정하려면 여기만 고치면 돼요.
+   id = 유튜브 링크의 영상 ID (youtu.be/ 뒤, ? 앞 부분)
+   ========================================================= */
+const TRACKS = [
+  { id: "pOR_XK6IV2g", title: "CYBERPUNK DEAD BOY", sub: "サイバーパンクデッドボーイ" },
+  { id: "ac3tlg3mvvg", title: "마셜・맥시마이저",    sub: "マーシャル・マキシマイザー" },
+  { id: "6QR7af8Z-ac", title: "꽃다발",              sub: "花束" },
+  { id: "li27aYopu1I", title: "행복해지지 말아 줘",  sub: "しあわせになんてならないで" },
+  { id: "bVIHqEPoy4k", title: "반짝반짝",            sub: "きらきら" },
+  { id: "ltc8QhEmm6M", title: "Dear",                sub: "Mrs. GREEN APPLE" },
+  { id: "GWRTwlSnJEY", title: "논브레스 오블리주",   sub: "ノンブレス・オブリージュ" },
+  { id: "GpvMHDDxnqE", title: "Grand Escape",        sub: "グランドエスケープ / RADWIMPS" },
+  { id: "c8A3oqp5eIM", title: "Henceforth",          sub: "Orangestar" },
+];
+
+/* ---------- state ---------- */
+let player = null, ready = false, current = 0, isPlaying = false;
+let repeatMode = "all";   // "all" | "one" | "off"
+let shuffle = false, order = TRACKS.map((_, i) => i);
+let skipTimer = null, seeking = false;
+
+const $ = s => document.getElementById(s);
+const pad = n => String(n + 1).padStart(2, "0");
+const fmt = t => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0"); };
+const ytUrl = id => "https://www.youtube.com/watch?v=" + id;
+
+document.querySelector(".tracklist .tag").textContent = TRACKS.length + " TRACKS";
+
+/* ---------- track list ---------- */
+function renderList() {
+  const ol = $("list");
+  ol.innerHTML = "";
+  TRACKS.forEach((t, i) => {
+    const li = document.createElement("li");
+    li.innerHTML =
+      `<button type="button">
+         <span class="tn">${pad(i)}</span>
+         <span><span class="tt"></span><span class="ts"></span>${t.blocked ? '<span class="tb">YouTube에서만 재생 가능</span>' : ""}</span>
+         <span class="eq"><i></i><i></i><i></i></span>
+       </button>`;
+    li.querySelector(".tt").textContent = t.title;
+    li.querySelector(".ts").textContent = t.sub;
+    li.querySelector("button").addEventListener("click", () => {
+      if (i === current && ready) togglePlay(); else playTrack(i, true);
+    });
+    ol.appendChild(li);
+  });
+  markActive();
+}
+function markActive() {
+  [...$("list").children].forEach((li, i) => {
+    li.classList.toggle("active", i === current);
+    li.classList.toggle("playing", i === current && isPlaying);
+  });
+}
+function showNow() {
+  const t = TRACKS[current];
+  $("nowNo").textContent = "TRACK " + pad(current);
+  $("nowTitle").textContent = t.title;
+  $("nowSub").textContent = t.sub;
+  $("ytLink").href = ytUrl(t.id);
+  $("cur").textContent = "0:00"; $("dur").textContent = "0:00";
+  setSeek(0);
+  hideNotice();
+}
+
+/* ---------- playback ---------- */
+function playTrack(i, autoplay) {
+  clearTimeout(skipTimer);
+  current = i;
+  showNow(); markActive();
+  if (!ready) return;
+  if (autoplay) player.loadVideoById(TRACKS[i].id);
+  else player.cueVideoById(TRACKS[i].id);
+}
+function togglePlay() {
+  if (!ready) return;
+  if (isPlaying) player.pauseVideo(); else player.playVideo();
+}
+function nextIndex(dir) {
+  const pos = order.indexOf(current);
+  let np = pos + dir;
+  if (np >= order.length) { if (repeatMode === "off" && dir > 0) return -1; np = 0; }
+  if (np < 0) np = order.length - 1;
+  return order[np];
+}
+function next() {
+  const n = nextIndex(1);
+  if (n === -1) { setPlaying(false); return; }
+  playTrack(n, true);
+}
+function prev() {
+  if (ready && player.getCurrentTime && player.getCurrentTime() > 3) { player.seekTo(0, true); return; }
+  playTrack(nextIndex(-1), true);
+}
+function setPlaying(p) {
+  isPlaying = p;
+  $("disc").classList.toggle("playing", p);
+  $("playIcon").innerHTML = p
+    ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>'
+    : '<path d="M8 5v14l11-7z"/>';
+  $("playBtn").setAttribute("aria-label", p ? "일시정지" : "재생");
+  markActive();
+}
+
+/* ---------- progress ---------- */
+function setSeek(ratio) {
+  const s = $("seek");
+  s.value = Math.round(ratio * 1000);
+  s.style.setProperty("--p", (ratio * 100).toFixed(2) + "%");
+}
+function tick() {
+  if (!ready || seeking || !player.getDuration) return;
+  const d = player.getDuration() || 0, c = player.getCurrentTime() || 0;
+  $("dur").textContent = fmt(d);
+  $("cur").textContent = fmt(c);
+  setSeek(d ? c / d : 0);
+}
+$("seek").addEventListener("input", e => {
+  seeking = true;
+  const r = e.target.value / 1000;
+  e.target.style.setProperty("--p", (r * 100) + "%");
+  if (ready) $("cur").textContent = fmt(r * (player.getDuration() || 0));
+});
+$("seek").addEventListener("change", e => {
+  if (ready) player.seekTo((e.target.value / 1000) * (player.getDuration() || 0), true);
+  seeking = false;
+});
+
+/* ---------- notice (embed blocked etc.) ---------- */
+function showNotice(html) { const n = $("notice"); n.innerHTML = html; n.classList.add("show"); }
+function hideNotice() { $("notice").classList.remove("show"); }
+
+/* ---------- buttons ---------- */
+$("playBtn").addEventListener("click", togglePlay);
+$("nextBtn").addEventListener("click", next);
+$("prevBtn").addEventListener("click", prev);
+$("repeatBtn").addEventListener("click", () => {
+  repeatMode = repeatMode === "all" ? "one" : repeatMode === "one" ? "off" : "all";
+  const b = $("repeatBtn");
+  b.classList.toggle("on", repeatMode !== "off");
+  $("repeatWrap").classList.toggle("one", repeatMode === "one");
+  b.setAttribute("aria-label", "반복: " + ({ all: "전체", one: "한 곡", off: "끔" })[repeatMode]);
+});
+$("shuffleBtn").addEventListener("click", () => {
+  shuffle = !shuffle;
+  $("shuffleBtn").classList.toggle("on", shuffle);
+  if (shuffle) {
+    const rest = TRACKS.map((_, i) => i).filter(i => i !== current);
+    for (let i = rest.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [rest[i], rest[j]] = [rest[j], rest[i]]; }
+    order = [current, ...rest];
+  } else {
+    order = TRACKS.map((_, i) => i);
+  }
+});
+
+/* ---------- YouTube IFrame API ---------- */
+window.onYouTubeIframeAPIReady = function () {
+  player = new YT.Player("yt", {
+    videoId: TRACKS[0].id,
+    playerVars: { playsinline: 1, rel: 0 },
+    events: {
+      onReady: () => { ready = true; setInterval(tick, 500); },
+      onStateChange: e => {
+        const S = YT.PlayerState;
+        if (e.data === S.PLAYING) { setPlaying(true); hideNotice(); }
+        else if (e.data === S.PAUSED || e.data === S.CUED) setPlaying(false);
+        else if (e.data === S.ENDED) {
+          setPlaying(false);
+          if (repeatMode === "one") { player.seekTo(0, true); player.playVideo(); }
+          else next();
+        }
+      },
+      onError: e => {
+        const t = TRACKS[current];
+        setPlaying(false);
+        if (e.data === 101 || e.data === 150 || e.data === 153) {
+          t.blocked = true; renderList();
+          showNotice(`이 곡은 외부 사이트 재생이 막혀 있어요. <a href="${ytUrl(t.id)}" target="_blank" rel="noopener">YouTube에서 듣기 ↗</a><br>잠시 후 다음 곡으로 넘어갑니다.`);
+        } else {
+          showNotice(`영상을 불러오지 못했어요. <a href="${ytUrl(t.id)}" target="_blank" rel="noopener">YouTube에서 듣기 ↗</a>`);
+        }
+        const here = current;
+        skipTimer = setTimeout(() => { if (current === here) next(); }, 5000);
+      }
+    }
+  });
+};
+
+/* ---------- init ---------- */
+renderList();
+showNow();
+(function loadYT() {
+  const s = document.createElement("script");
+  s.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>
